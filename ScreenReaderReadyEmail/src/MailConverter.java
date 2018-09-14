@@ -1,3 +1,7 @@
+/*next implement looking in folder and operating on all files there
+ * jemail to get sender and signing the email
+ * jemail to get and format all new emails
+ * removing auto signatures with emails phone numbers fax numbers ect*/
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,11 +11,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 public class MailConverter 
 {
 
-    public static void main(String[] args) 
+    public static void main(final String[] args) 
     {
         javax.swing.SwingUtilities.invokeLater
         (
@@ -19,17 +22,15 @@ public class MailConverter
         		{
         			public void run() 
         			{
-        				System.out.println("here");
         				ArrayList<String> formatedEmail = new ArrayList<String>();
-        				Scanner s = new Scanner(System.in);
-        				String path = s.nextLine();
-        				System.out.println(path);
-        				s.close();
-        				String fileName = "defauslt";
-        				
+        				String fileLocation = args[0]; //file location of the raw email and output file
+        				String email = args[1]; // name of raw email
+        				System.out.println(fileLocation+email); // manual check the args
+        				String fileName = "default";
+        				String  path = fileLocation+email;
         				try 
-        				{
-            				BufferedReader rawEmail = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\Users\\ben4t\\Desktop\\mailraw.txt"),"UTF-16"));
+        				{																						
+            				BufferedReader rawEmail = new BufferedReader(new InputStreamReader(new FileInputStream(path),"UTF-16"));
         				    String line = rawEmail.readLine();
         				    fileName = line;
         				    line = rawEmail.readLine();
@@ -66,24 +67,19 @@ public class MailConverter
         				
         				try 
         				{
-        					if(fileName.contains(":")||fileName.contains("\\"))
-        					{
-        						fileName.replace(":", " ");
-        						fileName.replace("\\", " ");
-        						System.out.println("contanes ileagal char");
-        					}
+        					System.out.println("file location is "+fileLocation);
         					System.out.println(fileName);
-        					File f = new File("C:\\Users\\ben4t\\Desktop\\"+fileName+".txt");
-        					// will need to verify directorry latter
+        					File f = new File(fileLocation+fileName+".txt");
+        					// will need to verify directory latter
         					f.createNewFile();
-							BufferedWriter formatedEmailWriter = new BufferedWriter(new FileWriter("C:\\Users\\ben4t\\Desktop\\"+fileName+".txt"));
+        					// write new file to same location as raw
+							BufferedWriter formatedEmailWriter = new BufferedWriter(new FileWriter(fileLocation+fileName+".txt"));
 							formatedEmailWriter.write(eMail);
 							
 							formatedEmailWriter.close();
 						} 
         				catch (IOException e) 
         				{
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
         				
